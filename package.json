@@ -1,0 +1,27 @@
+{
+  "name": "toloframework-permissive-json",
+  "version": "1.0.0",
+  "description": "Permissive JSON parser. Accept comments, missing quotes and commas, unspecified attributes names in objects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tolokoban/toloframework-permissive-json.git"
+  },
+  "keywords": [
+    "toloframework",
+    "json",
+    "permissive"
+  ],
+  "author": "tolokoban",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/tolokoban/toloframework-permissive-json/issues"
+  },
+  "homepage": "https://github.com/tolokoban/toloframework-permissive-json#readme",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}
