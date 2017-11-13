@@ -80,13 +80,17 @@ describe('tokenizer', function() {
 
       check(
         "{card: [42, Youpi!], Eliot...}", 
-        [1,5,8,3,6,9,5,4,9,5,2]
+        [1,5,8,3,6,5,4,5,2]
       );
     });
 
     check("{}", [
       {type: Tokenizer.OBJ_OPEN, index: 0},
       {type: Tokenizer.OBJ_CLOSE, index: 1}
+    ]);
+
+    check("}", [
+      {type: Tokenizer.OBJ_CLOSE, index: 0}
     ]);
 
     check(" { \t  } \n  \r\r\n  \t\t", [
@@ -97,6 +101,10 @@ describe('tokenizer', function() {
     check("[]", [
       {type: Tokenizer.ARR_OPEN, index: 0},
       {type: Tokenizer.ARR_CLOSE, index: 1}
+    ]);
+
+    check("]", [
+      {type: Tokenizer.ARR_CLOSE, index: 0}
     ]);
 
     check("[ 'Toto']", [

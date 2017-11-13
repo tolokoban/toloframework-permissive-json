@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * @exports {function} .tokenize
+ * @export {function} .tokenize
  * @param {string} source - Stringification of a permissive JSON object.
  * @return {array} Array of tokens. A token is an object like this: `{}`.
  */
@@ -13,8 +13,12 @@ var STRING = 5;
 var NUMBER = 6;
 var SPECIAL = 7;  // true, false, null or undefined.
 var COLON = 8;
-var COMMA = 9;
 
+var TYPE_NAMES = [
+  "???",
+  "OBJ_OPEN", "OBJ_CLOSE", "ARR_OPEN", "ARR_CLOSE",
+  "STRING", "NUMBER", "SPECIAL", "COLON"
+];
 
 module.exports = {
   OBJ_OPEN: OBJ_OPEN,
@@ -25,7 +29,6 @@ module.exports = {
   NUMBER: NUMBER,
   SPECIAL: SPECIAL,  // true, false, null or undefined.
   COLON: COLON,
-  COMMA: COMMA,
   /**
    * @param {string} source - JSON string to tokenize.
    * @return
@@ -33,7 +36,8 @@ module.exports = {
   tokenize: function( source ) {
     var ctx = new Context();
     return ctx.tokenize( source );
-  }
+  },
+  getTypeName: function( type ) { return TYPE_NAMES[type]; }
 };
 
 
@@ -110,8 +114,12 @@ function eatSymbol() {
   case '}': tkn = OBJ_CLOSE; break;
   case '[': tkn = ARR_OPEN; break;
   case ']': tkn = ARR_CLOSE; break;
-  case ',': tkn = COMMA; break;
   case ':': tkn = COLON; break;
+  }
+  if( c === ',' ) {
+    // The comma is not mandatory.
+    this.index++;
+    return;
   }
   if( tkn ) {
     this.addToken( tkn );
@@ -192,11 +200,13 @@ function eatIdentifier() {
   }
   var num = parseFloat( str );
   if( num === null || isNaN( num ) ) {
+    var type = SPECIAL;
     if( str === 'null' ) str = null;
     else if( str === 'undefined' ) str = undefined;
     else if( str === 'true' ) str = true;
     else if( str === 'false' ) str = false;
-    this.addToken(STRING, start, str );
+    else type = STRING;
+    this.addToken(type, start, str );
   } else {
     this.addToken(NUMBER, start, num );
   }
