@@ -58,6 +58,21 @@ Parser.prototype.parse = function() {
 };
 
 
+Parser.prototype.parseArray = function() {
+  var start = this.index;
+  var arr = [];
+  var tkn;
+  while( undefined !== (tkn = this.peek()) ) {
+    if( tkn.type === Tokenizer.ARR_CLOSE ) {
+      this.next();
+      return arr;
+    }
+    arr.push( this.parse() );
+  }
+  this.fail("Opening braket at position " + start + " has no corresponding closing one!", start);
+};
+
+
 Parser.prototype.parseObject = function() {
   var start = this.index;
   var obj = {};
@@ -72,6 +87,7 @@ Parser.prototype.parseObject = function() {
     key = this.parse();
     tkn = this.peek();
     if( tkn.type === Tokenizer.OBJ_CLOSE ) {
+      obj[indexForMissingKey++] = key;
       this.next();
       return obj;
     }
@@ -83,22 +99,9 @@ Parser.prototype.parseObject = function() {
     else {
       // Missing key.
       obj[indexForMissingKey++] = key;
-      console.log(JSON.stringify(obj, null, '  '));
     }
   }
   this.fail("Opening brace at position " + start + " has no corresponding closing one!", start);
-};
-
-
-Parser.prototype.parseArray = function() {
-  var start = this.index;
-  var arr = [];
-  var tkn;
-  while( undefined !== (tkn = this.peek()) ) {
-    if( tkn.type === Tokenizer.ARR_CLOSE ) return arr;
-    arr.push( this.parse() );
-  }
-  this.fail("Opening braket at position " + start + " has no corresponding closing one!", start);
 };
 
 
