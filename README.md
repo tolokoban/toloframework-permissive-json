@@ -27,7 +27,7 @@ The same object in stric JSON:
   "class": ["bright", "shadowed"],
   "1": [
     { "0": "li", "1": ["Happy birthday!"] },
-    { "0": "li", "1": ["Mister president"] }
+    { "0": "li", "1": ["Mister president."] }
   ]
 }
 ```
