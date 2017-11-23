@@ -1,6 +1,6 @@
 "use strict";
 
-describe('tokenizer', function() {
+describe('{tokenizer}', function() {
   var Tokenizer = require("../src/tokenizer");
   describe('correct code', function() {
     var check = function(given, expected) {
@@ -15,6 +15,33 @@ describe('tokenizer', function() {
         }
       });
     };
+
+    describe('parsing numbers', function() {
+      var check = function(given, expected) {
+        it(JSON.stringify(given) + " should be parsed as " + expected, function() {
+          var result = Tokenizer.tokenize( given );
+          expect( result[0].value ).toBe( expected );
+        });
+      };
+      check("666", 666);
+      check("-666", -666);
+      check("3.14", 3.14);
+      check("-3.14", -3.14);
+      check(".5", .5);
+      check("3e12", 3000000000000);
+      check("3e-2", 0.03);
+      check("-3e-2", -0.03);
+      check("-3.14e-2", -0.0314);
+      check("-3.14e2", -314);
+      check(".1e2", 10);
+      check("-.1e2", -10);
+      check("0xFF", 255);
+      check("-0xFF", -255);
+      check("0b1111", 15);
+      check("-0b1111", -15);
+      check("0o33", 27);
+      check("-0o33", -27);
+    });
 
     describe('parsing strings', function() {
       check("'Youpi!'", [
@@ -70,6 +97,11 @@ describe('tokenizer', function() {
           try {
             var result = Tokenizer.tokenize( given );
             result = result.map(function(itm) { return itm.type; });
+            if( JSON.stringify(result) != JSON.stringify(expected)) {
+              console.error("Given:    ", given);
+              console.error("Expected: ", expected);
+              console.error("Got:      ", result);
+            }
             expect( result ).toEqual( expected );
           }
           catch( ex ) {
@@ -81,6 +113,14 @@ describe('tokenizer', function() {
       check(
         "{card: [42, Youpi!], Eliot...}", 
         [1,5,8,3,6,5,4,5,2]
+      );
+      check(
+        "{[A],B}",
+        [1,3,5,4,5,2]
+      );
+      check(
+        "[[1],A]",
+        [3,3,6,4,5,4]
       );
     });
 

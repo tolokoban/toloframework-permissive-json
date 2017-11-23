@@ -186,6 +186,11 @@ function eatString() {
   this.fail("Missing en of string");
 }
 
+var RX_DECIMAL = /^-?(\.[0-9]+|[0-9]+(\.[0-9]+)?)([eE]-?[0-9]+)?$/;
+var RX_HEXA = /^-?0x[0-9a-f]+$/i;
+var RX_OCTAL = /^-?0o[0-7]+$/i;
+var RX_BINARY = /^-?0b[01]+$/i;
+
 function eatIdentifier() {
   var start = this.index;
   var c = this.peek();
@@ -198,8 +203,29 @@ function eatIdentifier() {
     str += c;
     this.index++;
   }
-  var num = parseFloat( str );
-  if( num === null || isNaN( num ) ) {
+  if( RX_DECIMAL.test( str ) ) {
+    this.addToken(NUMBER, start, parseFloat(str) );
+  }
+  else if( RX_HEXA.test( str ) ) {
+    this.addToken(NUMBER, start, parseInt(str, 16) );
+  }
+  else if( RX_OCTAL.test( str ) ) {
+    if( str.charAt(0) == '-' ) {
+      str = "-" + str.substr(3);
+    } else {
+      str = str.substr(2);
+    }
+    this.addToken(NUMBER, start, parseInt(str, 8) );
+  }
+  else if( RX_BINARY.test( str ) ) {
+    if( str.charAt(0) == '-' ) {
+      str = "-" + str.substr(3);
+    } else {
+      str = str.substr(2);
+    }
+    this.addToken(NUMBER, start, parseInt(str, 2) );
+  }
+  else {
     var type = SPECIAL;
     if( str === 'null' ) str = null;
     else if( str === 'undefined' ) str = undefined;
@@ -207,7 +233,5 @@ function eatIdentifier() {
     else if( str === 'false' ) str = false;
     else type = STRING;
     this.addToken(type, start, str );
-  } else {
-    this.addToken(NUMBER, start, num );
   }
 }
