@@ -73,5 +73,23 @@ describe('{index}', function() {
     check("{{A}B}", {"0": {"0": "A"}, "1": "B"});
     check("{[A],B}", {"0": ["A"], "1": "B"});
     check("{[A]B}", {"0": ["A"], "1": "B"});
+    check(
+      `{ul
+  // This comment will be ignored.
+  class: [bright, shadowed]
+  [
+    {li ["Happy birthday!"]}
+    {li ["Mister president."]}
+  ]
+}`, 
+      {
+        "0": "ul",
+        "class": ["bright", "shadowed"],
+        "1": [
+          { "0": "li", "1": ["Happy birthday!"] },
+          { "0": "li", "1": ["Mister president."] }
+        ]
+      }
+    );
   });
 });
