@@ -44,51 +44,27 @@ describe('{tokenizer}', function() {
     });
 
     describe('parsing strings', function() {
-      check("'Youpi!'", [
-        {type: Tokenizer.STRING, index: 0, value: "Youpi!" }
-      ]);
-      check('"Youpi!"', [
-        {type: Tokenizer.STRING, index: 0, value: "Youpi!" }
-      ]);
+      check("'Youpi!'", [ {type: Tokenizer.STRING, index: 0, value: "Youpi!" } ]);
+      check('"Youpi!"', [ {type: Tokenizer.STRING, index: 0, value: "Youpi!" } ]);
+      check("'C\\'est'", [ {type: Tokenizer.STRING, index: 0, value: "C'est" } ]);
+      check('"C\'est"', [ {type: Tokenizer.STRING, index: 0, value: "C'est" } ]);
+      check("'a\\-b'", [ {type: Tokenizer.STRING, index: 0, value: "a-b" } ]);
+      check('"a\\-b"', [ {type: Tokenizer.STRING, index: 0, value: "a-b" } ]);
+      check("'a\\nb'", [ {type: Tokenizer.STRING, index: 0, value: "a\nb" } ]);
+      check('"a\\nb"', [ {type: Tokenizer.STRING, index: 0, value: "a\nb" } ]);
+    });
 
-      check("'C\\'est'", [
-        {type: Tokenizer.STRING, index: 0, value: "C'est" }
-      ]);
-      check('"C\'est"', [
-        {type: Tokenizer.STRING, index: 0, value: "C'est" }
-      ]);
-
-      check("'a\\-b'", [
-        {type: Tokenizer.STRING, index: 0, value: "a-b" }
-      ]);
-      check('"a\\-b"', [
-        {type: Tokenizer.STRING, index: 0, value: "a-b" }
-      ]);
-
-      check("'a\\nb'", [
-        {type: Tokenizer.STRING, index: 0, value: "a\nb" }
-      ]);
-      check('"a\\nb"', [
-        {type: Tokenizer.STRING, index: 0, value: "a\nb" }
-      ]);
+    describe('parsing empty strings', function() {
+      debugger;
+      check("''", [{type: Tokenizer.STRING, index: 0, value: ""}]);
+      check('""', [{type: Tokenizer.STRING, index: 0, value: ""}]);
     });
 
     describe('parsing identifiers', function() {
-      check("Youpi!", [
-        {type: Tokenizer.STRING, index: 0, value: "Youpi!" }
-      ]);
-
-      check("C'est", [
-        {type: Tokenizer.STRING, index: 0, value: "C'est" }
-      ]);
-
-      check("a\\-b", [
-        {type: Tokenizer.STRING, index: 0, value: "a\\-b" }
-      ]);
-
-      check("a\\nb", [
-        {type: Tokenizer.STRING, index: 0, value: "a\\nb" }
-      ]);
+      check("Youpi!", [ {type: Tokenizer.STRING, index: 0, value: "Youpi!" } ]);
+      check("C'est", [ {type: Tokenizer.STRING, index: 0, value: "C'est" } ]);
+      check("a\\-b", [ {type: Tokenizer.STRING, index: 0, value: "a\\-b" } ]);
+      check("a\\nb", [ {type: Tokenizer.STRING, index: 0, value: "a\\nb" } ]);
     });
 
     describe('parsing evrything', function() {

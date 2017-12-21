@@ -158,7 +158,7 @@ function eatString() {
   var start = this.index;
   var quote = this.peek();
   if( quote !== '"' && quote !== "'" ) return;
-  this.index++;
+  this.index++;  
   var excape = false;
   var str = '';
   var c;
