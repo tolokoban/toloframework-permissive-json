@@ -1,63 +1,6 @@
 "use strict";
 
-var INPUT1 = `// tfw.view.checkbox
-{View BUTTON
- view.attribs: {
-   value: false,
-   reversed: false,
-   content: Checkbox
- }
- class:tfw-view-checkbox
- class.ok:value
- event.pointerdown:{Toggle value}
- [
-   {DIV class:pin [
-     {DIV class:"bar thm-bg2"}
-     {DIV class:"btn thm-ele2 thm-bg1"}
-   ]}
-   {DIV class:txt {Attrib content}}
- ]
-}`;
-var OUTPUT1 = {
-  "0": "View",
-  "1": "BUTTON",
-  "2": [
-    {
-      "0": "DIV",
-      "1": [
-        {
-          "0": "DIV",
-          "class": "bar thm-bg2"
-        },
-        {
-          "0": "DIV",
-          "class": "btn thm-ele2 thm-bg1"
-        }
-      ],
-      "class": "pin"
-    },
-    {
-      "0": "DIV",
-      "1": {
-        "0": "Attrib",
-        "1": "content"
-      },
-      "class": "txt"
-    }
-  ],
-  "view.attribs": {
-    "value": false,
-    "reversed": false,
-    "content": "Checkbox"
-  },
-  "class": "tfw-view-checkbox",
-  "class.ok": "value",
-  "event.pointerdown": {
-    "0": "Toggle",
-    "1": "value"
-  }
-};
-
+var CASES = require("./test-cases.js");
 
 
 describe('{index}', function() {
@@ -98,6 +41,7 @@ describe('{index}', function() {
   describe('string', function() {
     check("Hello", "Hello");
     check('{DIV class:"bar thm-bg2"}', {"0": "DIV", "class": "bar thm-bg2"});
+    check('{Bind "text/value"}', {"0": "Bind", "1": "text/value"});
   });
 
   describe('number', function() {
@@ -162,9 +106,12 @@ describe('{index}', function() {
     );
   });
 
-  describe('complex objects', function() {
-    check(INPUT1, OUTPUT1);
+  describe('test cases', function() {
+    CASES.forEach(function (testcase) {
+      var input = testcase[0];
+      var output = testcase[1];
+      check( input, output );
+    });
   });
 });
-
 
