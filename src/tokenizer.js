@@ -159,7 +159,7 @@ function eatString() {
   var quote = this.peek();
   if( quote !== '"' && quote !== "'" ) return;
   this.index++;  
-  var excape = false;
+  var escape = false;
   var str = '';
   var c;
   while( !this.eos() ) {
