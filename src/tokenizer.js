@@ -75,6 +75,19 @@ Context.prototype.tokenize = function( source ) {
   return this.tokens;
 };
 
+/**
+ * Check if the current cursor is pointing on a string passed as argument.
+ * Multiple arguments are allowed.
+ */
+Context.prototype.is = function() {
+  var arg, k;
+  for( k = 0; k < arguments.length; k++ ) {
+    arg = arguments[k];
+    if( this.source.substr( this.index, arg.length ) == arg ) return true;
+  }
+  return false;
+};
+
 Context.prototype.fail = function(msg) {
   if( typeof msg === 'undefined' ) msg = "Invalid char at " + this.index + "!";
 
@@ -158,7 +171,7 @@ function eatString() {
   var start = this.index;
   var quote = this.peek();
   if( quote !== '"' && quote !== "'" ) return;
-  this.index++;  
+  this.index++;
   var escape = false;
   var str = '';
   var c;
@@ -194,12 +207,12 @@ var RX_BINARY = /^-?0b[01]+$/i;
 function eatIdentifier() {
   var start = this.index;
   var c = this.peek();
-  if( " \t\n\r,:[]{}/".indexOf(c) !== -1 ) return;
+  if( " \t\n\r,:[]{}".indexOf(c) !== -1 || this.is("//", "/*") ) return;
   this.index++;
   var str = c;
   while( !this.eos() ) {
     c = this.peek();
-    if( " \t\n\r,:[]{}/".indexOf(c) !== -1 ) break;
+    if( " \t\n\r,:[]{}".indexOf(c) !== -1 || this.is("//", "/*") ) break;
     str += c;
     this.index++;
   }

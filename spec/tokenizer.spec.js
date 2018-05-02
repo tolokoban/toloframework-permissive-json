@@ -61,10 +61,13 @@ describe('{tokenizer}', function() {
     });
 
     describe('parsing identifiers', function() {
-      check("Youpi!", [ {type: Tokenizer.STRING, index: 0, value: "Youpi!" } ]);
-      check("C'est", [ {type: Tokenizer.STRING, index: 0, value: "C'est" } ]);
-      check("a\\-b", [ {type: Tokenizer.STRING, index: 0, value: "a\\-b" } ]);
-      check("a\\nb", [ {type: Tokenizer.STRING, index: 0, value: "a\\nb" } ]);
+      [
+        "*", "+", "-", "?", "=", "<", ">", "(", ")", "/", "a/b", "Team74",
+        "Youpi!", "C'est", "a\\b", "a\\nb", "a\\-b",
+        "f()", "tfw.view.button"
+      ].forEach(function (text) {
+        check(text, [ {type: Tokenizer.STRING, index: 0, value: text } ]);
+      });
     });
 
     describe('parsing evrything', function() {
