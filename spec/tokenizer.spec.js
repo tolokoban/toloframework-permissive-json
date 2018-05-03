@@ -1,5 +1,15 @@
 "use strict";
 
+/* Uncomment this for specific debug with devtool.
+describe('Debugging', function() {
+  it('should work', function() {
+    debugger;
+    var Tokenizer = require("../src/tokenizer");
+    var result = Tokenizer.tokenize( "/root" );
+  });
+});
+*/
+
 describe('{tokenizer}', function() {
   var Tokenizer = require("../src/tokenizer");
   describe('correct code', function() {
@@ -55,7 +65,6 @@ describe('{tokenizer}', function() {
     });
 
     describe('parsing empty strings', function() {
-      debugger;
       check("''", [{type: Tokenizer.STRING, index: 0, value: ""}]);
       check('""', [{type: Tokenizer.STRING, index: 0, value: ""}]);
     });
@@ -64,7 +73,8 @@ describe('{tokenizer}', function() {
       [
         "*", "+", "-", "?", "=", "<", ">", "(", ")", "/", "a/b", "Team74",
         "Youpi!", "C'est", "a\\b", "a\\nb", "a\\-b",
-        "f()", "tfw.view.button"
+        "/root", "/home/tolokoban/",
+        "f()", "tfw.view.button", "func()"
       ].forEach(function (text) {
         check(text, [ {type: Tokenizer.STRING, index: 0, value: text } ]);
       });

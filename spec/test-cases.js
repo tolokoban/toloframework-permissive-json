@@ -1,7 +1,7 @@
 module.exports = [
-  [`{func()}`], { "0": "func()" },
-  [`{ func() }`], { "0": "func()" },
-  [`{ func () }`], { "0": "func", "1": "()" },
+  [`{func()}`, { "0": "func()" }],
+  [`{ func() }`, { "0": "func()" }],
+  [`{ func () }`, { "0": "func", "1": "()" }],
   [`// tfw.view.checkbox
 {View BUTTON
  view.attribs: {

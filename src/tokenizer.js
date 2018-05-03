@@ -141,6 +141,7 @@ function eatSymbol() {
 }
 
 function eatComment() {
+  var savedIndex = this.index;
   if( this.peek() !== '/' ) return;
   this.index++;
   var c = this.next();
@@ -163,14 +164,14 @@ function eatComment() {
     }
   }
   else {
-    this.fail("'/' looks like a comment, but it is not!");
+    this.index = savedIndex;
   }
 }
 
 function eatString() {
-  var start = this.index;
   var quote = this.peek();
   if( quote !== '"' && quote !== "'" ) return;
+  var start = this.index;
   this.index++;
   var escape = false;
   var str = '';

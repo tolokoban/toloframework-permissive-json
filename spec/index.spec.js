@@ -7,6 +7,8 @@ describe('{index}', function() {
   var P = require("../src/index").parse;
 
   var check = function( given, expected ) {
+    if( typeof expected === 'undefined' ) expected = given;
+
     it('should parse ' + given, function() {
       try {
         var result = P(given);
@@ -39,9 +41,11 @@ describe('{index}', function() {
   };
 
   describe('string', function() {
-    check("Hello", "Hello");
+    check("Hello");
     check('{DIV class:"bar thm-bg2"}', {"0": "DIV", "class": "bar thm-bg2"});
     check('{Bind "text/value"}', {"0": "Bind", "1": "text/value"});
+    check("/Hello");
+    check("foo()");
   });
 
   describe('number', function() {
