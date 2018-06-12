@@ -20,7 +20,7 @@ Permissive JSON:
 }
 ```
 
-The same object in stric JSON:
+The same object in strict JSON:
 ```js
 {
   "0": "ul",
