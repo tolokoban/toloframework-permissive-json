@@ -12,7 +12,7 @@ Permissive JSON:
 ```js
 {ul
   // This comment will be ignored.
-  class: [bright, shadowed]
+  class: [bright shadowed]
   [
     {li ["Happy birthday!"]}
     {li ["Mister president."]}
